@@ -1,0 +1,251 @@
+body { 
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+    background-color: orange;
+    font-family: "Montserrat", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: weight;
+    font-style: normal;
+}
+
+/* Estilos para el navbar */
+.navbar {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: orange;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    padding: 10px 0;
+}
+
+.navbar {
+    top: 0;
+    z-index: 10;
+    padding: 5px 0;
+}
+
+.text-nav {
+    font-size: 21px;
+    padding: 5px;
+    text-align: center;
+}
+
+.navbar a {
+    padding: 10px 14px;
+    text-decoration: none;
+    color: #333; 
+}
+
+
+/* Estilo para el header */
+.header-content {
+    position: relative;
+    height: calc(100vh - 100px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    overflow: hidden;
+}
+
+
+.welcome {
+    margin: 0;
+    padding: 0;
+    font-size: 12px;  
+}
+
+.text-h1 {
+    font-size: 32px;
+    font-weight: 700;
+    margin: 0;
+    padding: 0;
+}
+
+.collaboration {
+    font-size: 12px;
+    margin: 0;
+    padding: 0;
+    
+}
+
+/* ----------- Estilos para el footer ------------ */
+.footer {
+    background-color: #000;
+    color: #fff;
+    padding: 20px 0;
+}
+
+.img-icon{
+    align-items: center;
+    width: 30px;
+    height: 30px;
+    border-radius: 10px;
+}
+
+
+
+
+/*---- Ajustes de Pantalla ----- */
+@media (max-width: 768px) {
+    /* --- Estilo Header Welcome --- */
+    .welcome {
+        margin: 0;
+        padding: 0;
+        font-size: 12px;  
+    }
+    
+    .text-h1 {
+        font-size: 30px;
+        margin: 0;
+        padding: 0;
+        font-weight: 800;
+    }
+    
+    .collaboration {
+        margin: 0;
+        padding: 0;
+        font-size: 12px;
+    }
+
+    /* --- Estilo Navbar --- */
+    .navbar {
+        top: 0;
+        z-index: 10;
+        padding: 5px 0;
+    }
+
+    .text-nav {
+        font-size: 18px;
+        padding: 5px;
+        text-align: center;
+    }
+    
+    .navbar a {
+        padding: 10px 14px;
+        text-decoration: none;
+        color: #333; 
+    }
+
+    .text-footer {
+        font-size: 18px;
+        padding: 5px;
+        text-align: center;    
+    }
+    .img-icon {
+        width: 25px;
+        height: 25px;
+        border-radius: 10px;
+    }
+}    
+
+
+@media (max-width: 576px) {
+    /* --- Estilo Header Welcome --- */
+    .welcome {
+        margin: 0;
+        padding: 0;
+        font-size: 13px;  
+    }
+    
+    .text-h1 {
+        font-size: 26px;
+        font-weight: 800;
+        margin: 0;
+        padding: 0;
+    }
+    
+    .collaboration {
+        margin: 0;
+        padding: 0;
+        font-size: 13px;
+    }
+    
+    
+    /* --- Estilo Navbar --- */
+        .text-nav {
+            font-size: 15px;
+            padding: 3px;
+            text-align: center;
+        }
+        
+        .navbar {
+            top: 0;
+            z-index: 10;
+            padding: 3px 0;
+        }
+        
+        .navbar a {
+            padding: 8px 12px;
+            text-decoration: none;
+            color: #333; 
+        }
+        
+        .text-footer {
+            font-size: 14px;
+            padding: 5px;
+            text-align: center;    
+        }
+        .img-icon {
+            width: 20px;
+            height: 20px;
+            border-radius: 10px;
+        }
+    }
+    
+    @media (max-width: 380px) {
+    /* --- Estilo Header Welcome --- */
+    .welcome {
+        margin: 0;
+        padding: 0;
+        font-size: 12px;  
+    }
+    
+    .text-h1 {
+        font-size: 21px;
+        margin: 0;
+        padding: 0;
+        font-weight: 800;
+    }
+    
+    .collaboration {
+        margin: 0;
+        padding: 0;
+        font-size: 12px;
+    }
+    
+    
+    /* --- Estilo Navbar --- */
+        .text-nav {
+            font-size: 10px;
+            padding: 1px;
+            text-align: center;
+        }
+        
+        .navbar {
+            top: 0;
+            z-index: 10;
+            padding: 3px 0;
+        }
+        
+        .navbar a {
+            padding: 3px 8px;
+            text-decoration: none;
+            color: #333; 
+        }
+        
+        .text-footer {
+            font-size: 11px;
+            padding: 5px;
+            text-align: center;    
+        }
+        .img-icon {
+            width: 18px;
+            height: 18px;
+            border-radius: 10px;
+        }
+               
+    }

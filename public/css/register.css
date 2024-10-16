@@ -1,0 +1,178 @@
+body, html {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background: #000000;
+    background: -webkit-linear-gradient(to bottom, #e74c3c, #000000);
+    background: linear-gradient(to bottom, #e74c3c, #000000);
+    font-family: "Montserrat", sans-serif;
+    color: white;
+}
+
+
+.form, label, .btn, .form-control{ 
+    overflow-x:hidden;
+    font-family: "Montserrat", sans-serif;
+    color: white;
+}
+
+h1 {
+    font-weight: 600;
+    font-size: 30px;
+}
+
+label {
+    font-size: 21px;
+}
+
+.form-control {
+    font-size: 14px;
+    padding: 5px;
+
+}
+
+/* ----------- Estilos para el footer ------------ */
+.footer {
+    background-color: #000;
+    color: #fff;
+    padding: 10px 0;
+}
+
+.text-footer {
+    font-size: 18px;
+    padding: 5px;
+    text-align: center;
+}
+
+.img-icon{
+    justify-content: center;
+    width: 30px;
+    height: 30px;
+    border-radius: 10px;
+    z-index: 5;
+}
+
+
+.btn {
+    margin: 4px;
+    padding: 8px 12px;
+    font-size: 14px;
+}
+
+
+
+/*---- Ajustes de Pantalla ----- */
+@media (max-width: 748px) {
+    h1, label, .btn, .form-control {
+    font-size: 21px;
+    margin: 2px;
+    padding: 5px;
+}
+
+    p {
+        padding: 3px;
+        margin: auto;
+        font-size: 16px;
+        align-items: center;
+    }
+   
+/* --- Estilo Navbar --- */
+    
+    a {
+        padding: 10px 14px;
+        text-decoration: none;
+        color: #333; 
+    }
+
+
+    .text-footer {
+        font-size: 14px;
+        padding: 5px;
+        text-align: center;    
+    }
+
+    .img-icon {
+        width: 25px;
+        height: 25px;
+        border-radius: 10px;
+    }
+}
+
+@media (max-width: 550px) {
+
+    h1, label, .btn, .form-control {
+        font-size: 21px;
+        margin: 2px;
+        padding: 3px;
+    }
+
+
+    p {
+        padding: 3px;
+        margin: auto;
+        font-size: 16px;
+        align-items: center;
+    }
+
+/* --- Estilo Navbar Footer --- */
+    
+    a {
+        padding: 10px 14px;
+        text-decoration: none;
+        color: #333; 
+    }
+
+
+    .text-footer {
+        font-size: 14px;
+        padding: 5px;
+        text-align: center;    
+    }
+
+    .img-icon {
+        width: 20px;
+        height: 20px;
+        border-radius: 10px;
+    }
+}
+
+@media (max-width: 380px) {
+
+    h1, label, .btn, .form-control {
+        font-size: 16px;
+        margin: 2px;
+        padding: 3px;
+    }
+    p {
+        padding: 3px;
+        margin: auto;
+        font-size: 16px;
+        align-items: center;
+    }
+
+/* --- Estilo Navbar --- */
+    
+    a {
+        padding: 10px 14px;
+        text-decoration: none;
+        color: #333; 
+    }
+
+    .text-footer {
+        font-size: 11px;
+        padding: 5px;
+        text-align: center;    
+    }
+
+    .img-icon {
+        width: 18px;
+        height: 18px;
+        border-radius: 10px;
+
+    }
+           
+}
+

@@ -1,0 +1,381 @@
+<!-- Mensajes de error o no -->
+<?php if (isset($_SESSION['error'])): ?>
+    <div class="alert alert-danger m-3" role="alert">
+        <?php echo $_SESSION['error']; unset($_SESSION['error']); ?>
+    </div>
+<?php endif; ?>
+<?php if (isset($_SESSION['success'])): ?>
+    <div class="alert alert-success" role="alert">
+        <?php echo $_SESSION['success']; unset($_SESSION['success']); ?>
+    </div>
+<?php endif; ?>
+
+//--------------------------------------------
+
+Resumen de Etapas
+
+    Formulario HTML: Crea un formulario para recoger datos del usuario.
+    Conexión a la Base de Datos: Conecta con MySQL usando mysqli.
+    Recogida de Datos: Usa $_POST para obtener los datos del formulario.
+    Validación: Comprueba si el usuario ya existe o si la contraseña es correcta.
+    Operaciones en la Base de Datos: Usa SQL para insertar, seleccionar o actualizar registros.
+    Manejo de Errores: Asegúrate de manejar cualquier error que pueda surgir durante la conexión o las operaciones.
+
+
+Para el HTML de index.php: 
+
+Explicación del Código:
+
+    Botones: Se han añadido dos botones, uno para el registro y otro para iniciar sesión. Cada botón utiliza el atributo data-bs-toggle y data-bs-target para abrir los modales correspondientes.
+
+    Modales: Se han creado dos modales: uno para el registro y otro para el inicio de sesión. Dentro de cada modal, hay un formulario que se envía a las páginas register.php y login.php.
+
+<<<<<<< HEAD
+# --- Para traer las actualizaciones de un repo a tu rama:  ----
+
+ Abre tu terminal (o la terminal integrada de tu editor).
+
+Navega hasta tu repositorio local:
+
+bash
+
+cd /ruta/a/tu/repositorio
+
+Asegúrate de estar en la rama correcta. Por ejemplo, si estás trabajando en la rama main, asegúrate de estar en ella:
+
+bash
+
+git checkout main
+
+Trae los cambios del repositorio remoto:
+
+bash
+
+git fetch origin
+
+Esto descarga los cambios, pero no los aplica a tu rama actual.
+
+Integra los cambios. Puedes hacer esto de dos maneras:
+
+    Para combinar los cambios en tu rama actual (esto puede generar conflictos si hay cambios que chocan):
+
+    bash
+
+git merge origin/main
+
+O, si prefieres actualizar tu rama directamente y reescribir tu historial local:
+
+bash
+
+    git pull origin main
+
+Este último comando es una combinación de fetch y merge.
+
+Resuelve conflictos, si los hay. Si hay conflictos, Git te lo indicará y tendrás que resolverlos manualmente.
+
+Confirma tus cambios (si es necesario) y sigue trabajando.
+
+//--------------------------------------------------
+
+Si deseas usar un archivo .env sin Composer y mantener tu proyecto simple (solo HTML, CSS y PHP), puedes cargar las variables de entorno manualmente. Aquí te muestro cómo hacerlo.
+1. Crear el archivo .env
+
+Crea un archivo llamado .env en la raíz de tu proyecto:
+
+makefile
+
+DB_SERVER=localhost
+DB_USERNAME=root
+DB_PASSWORD=Utn54200593$&?
+DB_NAME=prueba
+
+2. Cargar el archivo .env en PHP
+
+Crea una función simple para cargar las variables del archivo .env y guardarlas en el entorno de PHP. Luego, puedes incluir esta función en tus archivos.
+
+load_env.php:
+
+php
+
+<?php
+function load_env($file) {
+    if (file_exists($file)) {
+        $lines = file($file);
+        foreach ($lines as $line) {
+            if (strpos($line, '=') !== false) {
+                list($key, $value) = explode('=', trim($line), 2);
+                $_ENV[$key] = trim($value);
+            }
+        }
+    }
+}
+
+// Cargar las variables desde el archivo .env
+load_env(__DIR__ . '/.env');
+?>
+
+3. Modificar el archivo de conexión a la base de datos
+
+Ahora, actualiza tu archivo db.php para utilizar estas variables:
+
+db.php:
+
+php
+
+<?php
+include 'load_env.php'; // Incluir el archivo para cargar variables de entorno
+
+$servername = $_ENV['DB_SERVER'];
+$username = $_ENV['DB_USERNAME'];
+$password = $_ENV['DB_PASSWORD'];
+$dbname = $_ENV['DB_NAME'];
+
+$conn = new mysqli($servername, $username, $password, $dbname);
+
+// Verificar conexión
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+}
+?>
+
+4. Actualizar register.php y login.php
+
+Asegúrate de que ambos archivos incluyan db.php, que ahora usa las variables de entorno.
+
+register.php:
+=======
+HTTPS y CERTIFICADOS:
+
+
+Para asegurar que tu aplicación use HTTPS, aquí hay algunos pasos que debes seguir:
+1. Obtener un Certificado SSL
+
+Primero, necesitas un certificado SSL. Puedes obtener uno de varias maneras:
+
+    Certificados gratuitos: Servicios como Let's Encrypt ofrecen certificados SSL gratuitos.
+    Proveedores de Hosting: Muchos proveedores de hosting ofrecen certificados SSL como parte de su servicio.
+
+2. Instalar el Certificado
+
+Una vez que tengas el certificado, debes instalarlo en tu servidor. Los pasos exactos dependen de tu proveedor de hosting o de la configuración de tu servidor (Apache, Nginx, etc.).
+3. Forzar HTTPS en tu Aplicación
+
+Una vez que tu certificado SSL esté instalado, puedes redirigir todas las solicitudes HTTP a HTTPS. Esto se puede hacer en tu archivo PHP o mediante la configuración del servidor.
+En el archivo PHP (ejemplo en register.php):
+
+Agrega el siguiente código al principio de tu archivo:
+>>>>>>> 22a4ca36c3ad11185749a01ad0fb86b64f4f9c1f
+
+php
+
+<?php
+session_start();
+<<<<<<< HEAD
+include 'load_env.php'; // Incluir para cargar variables de entorno
+include 'db.php'; // Incluir conexión a la base de datos
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $username = $conn->real_escape_string($_POST['username']);
+    $email = $conn->real_escape_string($_POST['email']);
+    $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
+
+    // Validar si el nombre de usuario ya existe
+    $usernameCheck = $conn->query("SELECT * FROM users WHERE username='$username'");
+    if ($usernameCheck->num_rows > 0) {
+        $_SESSION['error'] = 'El nombre de usuario ya está en uso.';
+        header('Location: index.php');
+        exit();
+    }
+
+    // Validar si el correo electrónico ya existe
+    $emailCheck = $conn->query("SELECT * FROM users WHERE email='$email'");
+    if ($emailCheck->num_rows > 0) {
+        $_SESSION['error'] = 'El correo electrónico ya está en uso.';
+        header('Location: index.php');
+        exit();
+    }
+
+    // Insertar nuevo usuario
+    $stmt = $conn->prepare("INSERT INTO users (username, email, password) VALUES (?, ?, ?)");
+    $stmt->bind_param("sss", $username, $email, $password);
+    
+    if ($stmt->execute()) {
+        $_SESSION['success'] = 'Registro exitoso. Puedes iniciar sesión.';
+    } else {
+        $_SESSION['error'] = 'Error al registrar el usuario.';
+    }
+
+    $stmt->close();
+    $conn->close();
+    header('Location: index.php');
+=======
+
+// Redirigir a HTTPS si no está en HTTPS
+if (!isset($_SERVER['HTTPS']) || $_SERVER['HTTPS'] !== 'on') {
+    $redirect = "https://" . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
+    header("Location: $redirect");
+>>>>>>> 22a4ca36c3ad11185749a01ad0fb86b64f4f9c1f
+    exit();
+}
+?>
+
+<<<<<<< HEAD
+login.php:
+
+php
+
+<?php
+session_start();
+include 'load_env.php'; // Incluir para cargar variables de entorno
+include 'db.php'; // Incluir conexión a la base de datos
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $username = $conn->real_escape_string($_POST['username']);
+    $password = $_POST['password'];
+
+    $result = $conn->query("SELECT * FROM users WHERE username='$username'");
+    
+    if ($result->num_rows > 0) {
+        $user = $result->fetch_assoc();
+        if (password_verify($password, $user['password'])) {
+            $_SESSION['user'] = $username;
+            header('Location: welcome.php');
+            exit();
+        } else {
+            $_SESSION['error'] = 'Contraseña incorrecta.';
+        }
+    } else {
+        $_SESSION['error'] = 'El usuario no existe.';
+    }
+    
+    $conn->close();
+    header('Location: index.php');
+    exit();
+}
+?>
+
+Resumen
+
+    Carga de Variables de Entorno: La función load_env lee el archivo .env y carga las variables en $_ENV.
+    Integración: Los archivos register.php y login.php incluyen el archivo que carga las variables, y utilizan db.php para la conexión a la base de datos.
+
+Con esta configuración, puedes manejar las credenciales de la base de datos de manera segura sin necesidad de usar Composer
+
+//--------------------------------------------
+
+
+CRUD para Usuarios y Productos
+
+En un archivo crud.php, puedes implementar las operaciones CRUD. Aquí un ejemplo básico para usuarios:
+
+php
+
+<?php
+require 'db.php';
+
+function getUsers($pdo) {
+    $stmt = $pdo->query("SELECT * FROM users");
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
+
+function deleteUser($pdo, $id) {
+    $stmt = $pdo->prepare("DELETE FROM users WHERE id = ?");
+    return $stmt->execute([$id]);
+}
+
+// Ejemplo de cómo llamar a la función
+if (isset($_GET['delete_user'])) {
+    deleteUser($pdo, $_GET['delete_user']);
+    header('Location: crud.php');
+}
+
+// Listar usuarios
+$users = getUsers($pdo);
+?>
+
+<!-- HTML para mostrar los usuarios -->
+<table>
+    <tr>
+        <th>ID</th>
+        <th>Username</th>
+        <th>Email</th>
+        <th>Acciones</th>
+    </tr>
+    <?php foreach ($users as $user): ?>
+        <tr>
+            <td><?php echo htmlspecialchars($user['id']); ?></td>
+            <td><?php echo htmlspecialchars($user['username']); ?></td>
+            <td><?php echo htmlspecialchars($user['email']); ?></td>
+            <td><a href="?delete_user=<?php echo $user['id']; ?>">Eliminar</a></td>
+        </tr>
+    <?php endforeach; ?>
+</table>
+
+6. Integrar el CRUD para Productos
+
+Puedes seguir un enfoque similar al de los usuarios para implementar el CRUD de productos. Asegúrate de crear funciones para agregar, editar, eliminar y listar productos en crud.php o en un archivo separado.
+7. Validación y Sanitización
+
+Asegúrate de validar y sanitizar todas las entradas del usuario. Utiliza htmlspecialchars() para evitar inyecciones XSS y prepared statements para evitar inyecciones SQL.
+8. Finalizar el index.php
+
+Asegúrate de que index.php incluya las alertas de sesión y la lógica adecuada para el inicio de sesión y el registro, de acuerdo con lo que has desarrollado.
+
+Con esto, tendrás una base para tu aplicación PHP con manejo de usuarios, mensajes y productos. Recuerda ajustar los detalles según tus necesidades específicas y considerar la implementación de medidas de seguridad adicionales.
+
+//------------------------------------------------------------
+
+=======
+Este código verifica si la conexión es HTTPS. Si no lo es, redirige al usuario a la misma URL pero con HTTPS.
+4. Configurar Redirección en el Servidor (opcional)
+
+Si tienes acceso a la configuración de tu servidor, puedes hacer una redirección a nivel de servidor:
+Para Apache:
+
+Si usas Apache, puedes agregar lo siguiente a tu archivo .htaccess:
+
+apache
+
+RewriteEngine On
+RewriteCond %{HTTPS} off
+RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
+Para Nginx:
+
+Si usas Nginx, puedes agregar lo siguiente en tu bloque de servidor:
+
+nginx
+
+server {
+    listen 80;
+    server_name tu_dominio.com;
+    return 301 https://$host$request_uri;
+}
+
+5. Probar la Configuración
+
+Una vez que hayas hecho estos cambios, prueba tu aplicación accediendo a ella a través de http:// y asegúrate de que te redirija automáticamente a https://.
+Conclusión
+
+Al implementar HTTPS, protegerás los datos del formulario y mejorarás la seguridad de tu aplicación. Recuerda que el uso de HTTPS también es un factor de ranking positivo para los motores de búsqueda, así que es una buena práctica tenerlo en cuenta.
+# ----------------------------------------------------------------------------------------------------------
+<<<<<<< HEAD
+>>>>>>> 22a4ca36c3ad11185749a01ad0fb86b64f4f9c1f
+=======
+
+SQL table Company:
+
+id_company: Identificador único para cada compañía (clave primaria).
+nombre: Nombre de la compañía.
+descripcion_company: Descripción de la compañía.
+puesto_ofrecido: Nombre del puesto ofrecido.
+descripcion_puesto: Descripción del puesto ofrecido.
+fecha_publicacion: Fecha en que se publica la oferta.
+fecha_editado: Fecha de la última edición de la oferta.
+fecha_registro_company: Fecha en que se registra la compañía.
+mensaje: Mensaje adicional relacionado con la compañía.
+contenido_mensaje: Contenido específico del mensaje.
+fecha_publicacion_mensaje: Fecha de publicación del mensaje.
+fecha_ultima_edicion_mensaje: Fecha de la última edición del mensaje.
+id_usuario: Relación con la tabla users, indicando qué usuario ha registrado la compañía.
+>>>>>>> ef5e635 (last-one)
