@@ -5,9 +5,9 @@ body {
     background-color: orange;
     font-family: "Montserrat", sans-serif;
     font-optical-sizing: auto;
-    font-weight: weight;
+    font-weight: 700;
     font-style: normal;
-}
+    }
 
 /* Estilos para el navbar */
 .navbar {

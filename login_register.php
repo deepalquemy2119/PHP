@@ -13,11 +13,13 @@ if (isset($_SESSION['user_id'])) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="./public/css/login_register.css">
+    <link rel="stylesheet" href="./public/css/index.css">
     <title>Login o Registro</title>
 </head>
 <body>
+
     <div class="container text-center mt-5" id="main-container">
+    <h1 class="title-h1">My C2B <br> <br> <br></h1>
         <h4>¿Qué deseas hacer?</h4>
         <button class="btn btn-primary m-2" onclick="showOptions('register')">Registrar</button>
         <button class="btn btn-success m-2" onclick="showOptions('login')">Iniciar Sesión</button>
@@ -28,11 +30,13 @@ if (isset($_SESSION['user_id'])) {
         <button class="btn btn-primary m-2" onclick="showForm('empresa', currentAction)">Empresa</button>
         <button class="btn btn-success m-2" onclick="showForm('usuario', currentAction)">Usuario</button>
     </div>
+    <br><br><br><br>
 
+    <!-- ---------------- Título dinámico --------------- -->
     <div id="form-container" class="form-container mt-4" style="display:none;">
-        <h4 id="form-title" class="m-5"></h4> <!-- Título dinámico -->
-
-        <!-- Formulario de Empresa para Registro -->
+        <h4 id="form-title" class="m-5"></h4> 
+        <br>
+    <!-- ---------- Formulario Empresa para Registro ----------- -->
         <div id="empresa-register-form" class="form-section" style="display:none;">
             <form action="registroCompany.php" method="post" class="container">
                 <div class="mb-3">
@@ -51,8 +55,8 @@ if (isset($_SESSION['user_id'])) {
                 <input type="submit" class="btn btn-success m-3" value="Enviar">
             </form>
         </div>
-
-        <!-- Formulario de Usuario para Registro -->
+        
+        <!-- ------------ Formulario Usuario para Registro -------------- -->
         <div id="usuario-register-form" class="form-section" style="display:none;">
             <form action="registroUser.php" method="post" class="container">
                 <div class="mb-3">
@@ -71,8 +75,8 @@ if (isset($_SESSION['user_id'])) {
                 <input type="submit" class="btn btn-success m-3" value="Enviar">
             </form>
         </div>
-
-        <!-- Formulario de Empresa para Login -->
+        
+        <!-- ------------ Formulario Empresa para Login --------------- -->
         <div id="empresa-login-form" class="form-section" style="display:none;">
             <form action="loginCompany.php" method="post" class="container">
                 <div class="mb-3">
@@ -87,8 +91,8 @@ if (isset($_SESSION['user_id'])) {
                 <input type="submit" class="btn btn-success m-3" value="Iniciar Sesión">
             </form>
         </div>
-
-        <!-- Formulario de Usuario para Login -->
+        <br><br><br><br>
+        <!-- ------------ Formulario Usuario para Login ------------- -->
         <div id="usuario-login-form" class="form-section" style="display:none;">
             <form action="loginUser.php" method="post" class="container">
                 <div class="mb-3">
@@ -101,19 +105,23 @@ if (isset($_SESSION['user_id'])) {
                 </div>
                 <a href="home.php" class="btn btn-primary m-3">Back</a>
                 <input type="submit" class="btn btn-success m-3" value="Iniciar Sesión">
-            </form>
+            </form><br>
         </div>
     </div>
-
+<br><br><br><br>
     <footer class="footer text-center">
         <p class="text-footer">&copy; Gonzalo Rodrigo. DeepAlquemy2024</p>
     </footer>
 
     <script>
-        let currentAction = 'register'; // Estado inicial
+        // -------------------- Estado inicial ------------------
+        let currentAction = 'register'; 
 
         function showOptions(action) {
-            currentAction = action; // Actualizar acción actual
+
+        //  ------------ Actualizar acción actual -------------
+            currentAction = action;
+
             const mainContainer = document.getElementById('main-container');
             const optionsContainer = document.getElementById('options-container');
             mainContainer.style.display = 'none'; 
@@ -121,6 +129,7 @@ if (isset($_SESSION['user_id'])) {
             document.getElementById('form-container').style.display = 'none'; 
         }
 
+// --------- Funcion Mostrar Formulario ------------
         function showForm(type, action) {
             const optionsContainer = document.getElementById('options-container');
             const formContainer = document.getElementById('form-container');
@@ -143,7 +152,8 @@ if (isset($_SESSION['user_id'])) {
                     usuarioLoginForm.style.display = 'block';
                     formTitle.textContent = 'Iniciar Sesión - Usuario';
                 }
-            } else { // Si es registro
+            } else { 
+            // Si es registro
                 if (type === 'empresa') {
                     empresaRegisterForm.style.display = 'block';
                     usuarioRegisterForm.style.display = 'none';
@@ -160,16 +170,14 @@ if (isset($_SESSION['user_id'])) {
 </html>
 
 
-<!--     Estado Actual: Se introdujo la variable currentAction para mantener el estado de la acción actual (registro o inicio de sesión).
+<!--     Nota:
+    La variable currentAction es para mantener el estado de la acción actual (registro o inicio de sesión).
 
-    Función showOptions: Actualiza currentAction según si se selecciona "Registrar" o "Iniciar Sesión".
+    Función showOptions: Actualiza currentAction según si se selecciona:Registrar o Iniciar Sesión.
 
-    Función showForm: Modificada para que el título cambie correctamente según la combinación de acciones:
-        Si se selecciona "Iniciar Sesión" y luego "Empresa", muestra "Iniciar Sesión - Empresa".
-        Si se selecciona "Iniciar Sesión" y luego "Usuario", muestra "Iniciar Sesión - Usuario".
-        Si se selecciona "Registrar" y luego "Empresa", muestra "Registro de Empresa".
-        Si se selecciona "Registrar" y luego "Usuario", muestra "Registro de Usuario".
-
-Resultados Esperados
-
-Con estas modificaciones, el título se ajustará adecuadamente dependiendo de las selecciones realizadas, permitiendo una experiencia de usuario más clara y fluida. -->
+    Función showForm: Para que el título cambie según la combinación de acciones:
+        Si selecciona Iniciar Sesión y luego Empresa, muestra:
+             Iniciar Sesión - Empresa o para usuario
+        Si selecciona Registrar y luego Empresa, muestra:
+             Registro de Empresa o para usuario.
+        
