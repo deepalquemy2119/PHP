@@ -2,10 +2,12 @@
 session_start(); // Iniciar sesión
 
 if (isset($_SESSION['user_id'])) {
-    header('Location: home.php'); // Redirigir si ya hay sesión
+    header('Location: login_register.php'); // Redirigir si ya hay sesión
     exit();
+    echo "sesion iniciada...!!!";
 }
 ?>
+<div><p> Conexion Exitosa </p></div>
 
 <!DOCTYPE html>
 <html lang="es">
@@ -13,20 +15,20 @@ if (isset($_SESSION['user_id'])) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="./public/css/index.css">
+    <link rel="stylesheet" href="./public/css/login_register.css">
     <title>Login o Registro</title>
 </head>
 <body>
 
     <div class="container text-center mt-5" id="main-container">
     <h1 class="title-h1">My C2B <br> <br> <br></h1>
-        <h4>¿Qué deseas hacer?</h4>
+        <!-- <h4>¿Qué deseas hacer?</h4> -->
         <button class="btn btn-primary m-2" onclick="showOptions('register')">Registrar</button>
         <button class="btn btn-success m-2" onclick="showOptions('login')">Iniciar Sesión</button>
     </div>
 
     <div id="options-container" class="mt-4" style="display:none;">
-        <h4>¿Eres?</h4>
+        <h4>&nbsp;&nbsp;&nbsp;Eres...?</h4>
         <button class="btn btn-primary m-2" onclick="showForm('empresa', currentAction)">Empresa</button>
         <button class="btn btn-success m-2" onclick="showForm('usuario', currentAction)">Usuario</button>
     </div>
