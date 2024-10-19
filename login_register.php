@@ -1,13 +1,9 @@
 <?php
-session_start(); // Iniciar sesión
+include 'validate_session.php';
 
-if (isset($_SESSION['user_id'])) {
-    header('Location: login_register.php'); // Redirigir si ya hay sesión
-    exit();
-    echo "sesion iniciada...!!!";
-}
+
 ?>
-<div><p> Conexion Exitosa </p></div>
+
 
 <!DOCTYPE html>
 <html lang="es">
@@ -182,4 +178,113 @@ if (isset($_SESSION['user_id'])) {
              Iniciar Sesión - Empresa o para usuario
         Si selecciona Registrar y luego Empresa, muestra:
              Registro de Empresa o para usuario.
-        
+//-------------------------------------------------------------
+
+/* Para verificar Empresa. Tabla: 
+    
+    CREATE TABLE `companies` (
+    `id_company` int(11) NOT NULL AUTO_INCREMENT,
+    `nombre` varchar(100) NOT NULL,
+    `descripcion` text NOT NULL,
+    `fecha_registro` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY (`id_company`),
+    CHECK (CHAR_LENGTH(nombre) > 0)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+*/
+
+/* Para verificar que los datos del formulario se han cargado correctamente en la base de datos, necesitarás realizar algunos pasos adicionales después de que el formulario se envíe y procesar los datos. Aquí te muestro cómo hacerlo utilizando tu código y asumiendo que tienes un archivo de procesamiento, como registroCompany.php o registroUser.php.
+Paso 1: Procesar el formulario
+
+Vamos a suponer que estás trabajando con registroCompany.php para registrar a una empresa. El código puede verse así:
+
+php
+
+<?php
+// // registroCompany.php
+// session_start();
+
+// if ($_SERVER["REQUEST_METHOD"] == "POST") {
+//     $empresa = $_POST['empresa'];
+//     $email = $_POST['email'];
+//     $password = $_POST['password'];
+
+//     // Aquí debes conectarte a la base de datos
+//     $servername = "localhost";
+//     $username = "tu_usuario";
+//     $password_db = "tu_contraseña";
+//     $dbname = "tu_base_de_datos";
+
+//     $conn = new mysqli($servername, $username, $password_db, $dbname);
+
+//     // Verificar conexión
+//     if ($conn->connect_error) {
+//         die("Connection failed: " . $conn->connect_error);
+//     }
+
+//     // Preparar y ejecutar la consulta
+//     $stmt = $conn->prepare("INSERT INTO empresas (nombre, email, password) VALUES (?, ?, ?)");
+//     $stmt->bind_param("sss", $empresa, $email, password_hash($password, PASSWORD_DEFAULT)); // Usar hash para contraseñas
+
+//     if ($stmt->execute()) {
+//         echo "Registro exitoso. <br>";
+//         echo "Nombre de la empresa: $empresa <br>";
+//         echo "Correo electrónico: $email <br>";
+//     } else {
+//         echo "Error: " . $stmt->error;
+//     }
+
+//     // Cerrar conexión
+//     $stmt->close();
+//     $conn->close();
+// } else {
+//     echo "Método no permitido.";
+// }
+?>
+
+Paso 2: Verificar la inserción
+
+En el bloque if ($stmt->execute()), puedes agregar mensajes para confirmar que los datos se han insertado correctamente. En este caso, se muestra un mensaje de éxito junto con los datos ingresados.
+Paso 3: Crear un archivo para verificar
+
+Si deseas verificar los datos directamente desde la base de datos después de que se haya enviado el formulario, puedes crear un archivo llamado verificar.php que consulte la base de datos y muestre los registros:
+
+php
+
+<?php
+// // verificar.php
+// $servername = "localhost";
+// $username = "tu_usuario";
+// $password_db = "tu_contraseña";
+// $dbname = "tu_base_de_datos";
+
+// $conn = new mysqli($servername, $username, $password_db, $dbname);
+
+// // Verificar conexión
+// if ($conn->connect_error) {
+//     die("Connection failed: " . $conn->connect_error);
+// }
+
+// // Consulta para obtener los registros
+// $sql = "SELECT nombre, email FROM empresas";
+// $result = $conn->query($sql);
+
+// if ($result->num_rows > 0) {
+//     // Mostrar los datos
+//     while($row = $result->fetch_assoc()) {
+//         echo "Nombre: " . $row["nombre"]. " - Email: " . $row["email"]. "<br>";
+//     }
+// } else {
+//     echo "0 resultados";
+// }
+
+// $conn->close();
+?>
+
+Paso 4: Acceder a la verificación
+
+Después de que los datos se hayan enviado y procesado, puedes navegar a verificar.php en tu navegador para ver si los datos se han guardado correctamente en la base de datos.
+Notas importantes
+
+    Validación y seguridad: Siempre valida y sanitiza los datos del formulario para protegerte contra inyecciones SQL y otros problemas de seguridad.
+    Contraseñas: Usa password_hash() para almacenar contraseñas de forma segura y password_verify() para compararlas en el inicio de sesión.
+    Manejo de errores: Implementa un manejo adecuado de errores para que puedas identificar problemas en la conexión o ejecución de la consulta.*/

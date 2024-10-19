@@ -1,9 +1,50 @@
 <?php
-// Cargar variables de entorno
+/* Anoto todo lo que busco para ir aprendiendo y recordando */
+
+// para cambiar en tabla user, el  id por -->  user_id
+// $stmt = $conn->prepare("SELECT user_id FROM users WHERE user_id = ?");
+// $stmt->bind_param("i", $user_id);
+
+
+// inicio de sesión...
+session_start();
+if ($login_exitoso) { 
+// si ya verifique inicio de sesión
+    $_SESSION['user_id'] = $usuario_id; 
+// asigno el id del usuario a la sesión
+    header('Location: index.php');
+//me voy a index...
+    exit();
+}
+
+// cookie con atributos SameSite y Secure para que no me tire error de seguridad con https
+setcookie("mi_cookie", "valor_de_la_cookie", [
+    'expires' => time() + (86400 * 30), 
+    // cookie expira en 30 días
+    'path' => '/',
+    'secure' => true, 
+    // se envía a través de HTTPS
+    'httponly' => true, 
+    // No se puede acceder a través de JavaScript
+    'samesite' => 'None' 
+    // 'Lax' o 'Strict' si no necesito soporte de terceros
+]);
+if (isset($_SESSION['user_id'])) {
+// redirecciona a...
+    header('Location: index.php'); 
+    exit();
+} else {
+// redirecciona a...
+    header('Location: index.php'); 
+    exit();
+}
+
+// es como importar, traer el file load_....
 include_once 'load_env.php';
-//include_once 'connectDDBB.php';
 
 ?>
+
+
 
 <!DOCTYPE html>
 <html lang="es">
@@ -23,7 +64,7 @@ include_once 'load_env.php';
 <body>
 <!-- ---------------------- NAV ------------------------- -->
 <nav class="navbar">
-    <a href="index.php" class="text-nav"><h5>Home</h5></a>
+    <a href="login_register.php" class="text-nav"><h5>Home</h5></a>
 </nav>
 <!-- ---------------------- HEADER ------------------------- -->
 <header class="header-content">

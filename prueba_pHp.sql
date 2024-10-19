@@ -10,18 +10,19 @@ USE prueba_php;
 -- Eliminar la tabla de usuarios si existe
 DROP TABLE IF EXISTS users;
 
--- Crear la tabla de usuarios
+-- crear tabla user_id
 CREATE TABLE `users` (
-    `id` int(11) NOT NULL AUTO_INCREMENT,
+    `user_id` int(11) NOT NULL AUTO_INCREMENT,
     `username` varchar(50) NOT NULL UNIQUE,
     `email` varchar(100) NOT NULL UNIQUE,
     `password` varchar(255) NOT NULL,
     `fecha_registro` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    PRIMARY KEY (`id`),
+    PRIMARY KEY (`user_id`),
     CHECK (CHAR_LENGTH(username) > 0),
     CHECK (CHAR_LENGTH(email) > 0),
     CHECK (CHAR_LENGTH(password) >= 8)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
 
 -- Eliminar la tabla de compañías si existe
 DROP TABLE IF EXISTS companies;
@@ -67,7 +68,7 @@ CREATE TABLE `offers` (
     KEY `id_product` (`id_product`),
     KEY `id_user` (`id_user`),
     CONSTRAINT `offers_ibfk_1` FOREIGN KEY (`id_product`) REFERENCES `products` (`id_product`) ON DELETE CASCADE ON UPDATE CASCADE,
-    CONSTRAINT `offers_ibfk_2` FOREIGN KEY (`id_user`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+    CONSTRAINT `offers_ibfk_2` FOREIGN KEY (`id_user`) REFERENCES `users` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- Crear la tabla de auditoría
@@ -79,12 +80,12 @@ CREATE TABLE `audit_log` (
     `changed_by` int(11) NOT NULL,
     `changed_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
     PRIMARY KEY (`id`),
-    CONSTRAINT `audit_log_ibfk_1` FOREIGN KEY (`changed_by`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+    CONSTRAINT `audit_log_ibfk_1` FOREIGN KEY (`changed_by`) REFERENCES `users` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 
 --     Tabla companies: Ahora es independiente y contiene información específica de cada compañía.
---     Tabla products: Cada producto está vinculado a una compañía, y se ha añadido un campo precio para manejar el costo del producto.
+--     Tabla products: Cada producto está vinculado, y se ha añadido un campo precio para manejar el costo del producto o servicio.
 --     Tabla offers: Esta tabla permite a los usuarios ofrecer productos a las compañías. Incluye una referencia a id_product y id_user, lo que permite hacer un seguimiento de quién está ofreciendo qué producto.
 --     Uso de CHECK: Se han agregado restricciones CHECK para asegurar que los campos relevantes cumplan con las reglas de negocio (por ejemplo, que el precio no sea negativo).
 --     Auditoría: La tabla de auditoría se mantiene para registrar los cambios realizados en los datos.
