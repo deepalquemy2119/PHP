@@ -1,16 +1,16 @@
-<!-- <?php
+<?php
 //Iniciar la sesión
 session_start();
 
 if (!isset($_SESSION['user_id'])) {
 
-// Redirigir si no hay sesión activa
+//  si no hay sesión activa
     header('Location: login_register.php');
     exit();
 }
 
 
-?> -->
+?>
 
 <!DOCTYPE html>
 <html lang="es">
@@ -29,7 +29,7 @@ if (!isset($_SESSION['user_id'])) {
     <div class="container mt-5">
         <h2>Welcome to C2B</h2>
         <p>Contenido exclusivo para usuarios autenticados.</p>
-        <a href="logout.php" class="btn btn-danger m-5">Cerrar Sesión</a>
+        <a href="logout.php" class="btn btn-danger">Cerrar Sesión</a>
     </div>
 
     <footer class="footer text-center">

@@ -1,29 +1,43 @@
 <?php
-include 'validate_session.php';
-
+// variables de entorno
+include_once 'load_env.php';
+include_once 'connectDDBB.php';
 
 ?>
-
 
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- ---------------------- GOOGLE API ------------------------- -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <!-- ---------------------- BOOTSTRAP ------------------------- -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- ---------------------- LOCAL CSS ------------------------- -->
     <link rel="stylesheet" href="./public/css/login_register.css">
-    <title>Login o Registro</title>
+    <title>My C2B</title> 
 </head>
 <body>
 
-    <div class="container text-center mt-5" id="main-container">
-    <h1 class="title-h1">My C2B <br> <br> <br></h1>
-        <!-- <h4>¿Qué deseas hacer?</h4> -->
+<!-- ---------------------- HEADER ------------------------- -->
+<header class="header-content">
+    <div class="header-text">
+ 
+        <h1 class="title-h1">My C2B</h1>
+     
+    </div>
+</header>
+<div class="container text-center mt-5" id="main-container">
+  
         <button class="btn btn-primary m-2" onclick="showOptions('register')">Registrar</button>
         <button class="btn btn-success m-2" onclick="showOptions('login')">Iniciar Sesión</button>
     </div>
 
-    <div id="options-container" class="mt-4" style="display:none;">
+    <div id="options-container" class="mt-3" style="display:none;">
         <h4>&nbsp;&nbsp;&nbsp;Eres...?</h4>
         <button class="btn btn-primary m-2" onclick="showForm('empresa', currentAction)">Empresa</button>
         <button class="btn btn-success m-2" onclick="showForm('usuario', currentAction)">Usuario</button>
@@ -31,7 +45,7 @@ include 'validate_session.php';
     <br><br><br><br>
 
     <!-- ---------------- Título dinámico --------------- -->
-    <div id="form-container" class="form-container mt-4" style="display:none;">
+    <div id="form-container" class="form-container mt-2" style="display:none;">
         <h4 id="form-title" class="m-5"></h4> 
         <br>
     <!-- ---------- Formulario Empresa para Registro ----------- -->
@@ -45,11 +59,22 @@ include 'validate_session.php';
                     <label for="email_empresa" class="form-label">Correo Electrónico</label>
                     <input type="email" class="form-control" id="email_empresa" name="email" required>
                 </div>
+
+                <div class="mb-3">
+                    <label for="descripcion_empresa" class="form-label">Descripcion Empresa</label>
+                    <input type="text" class="form-control" id="descripcion_empresa" name="descripcion_empresa" required>
+                </div>
+                
+                <div class="mb-3">
+                    <label for="busca_empresa" class="form-label">Descripcion Servicio Busca</label>
+                    <input type="text" class="form-control" id="busca_empresa" name="busca_empresa" required>
+                </div>
+                
                 <div class="mb-3">
                     <label for="password_empresa" class="form-label">Contraseña</label>
                     <input type="password" class="form-control" id="password_empresa" name="password" required>
                 </div>
-                <a href="home.php" class="btn btn-primary m-3">Back</a>
+                <a href="login_register.php" class="btn btn-primary m-3">Back</a>
                 <input type="submit" class="btn btn-success m-3" value="Enviar">
             </form>
         </div>
@@ -69,7 +94,7 @@ include 'validate_session.php';
                     <label for="password_usuario" class="form-label">Contraseña</label>
                     <input type="password" class="form-control" id="password_usuario" name="password" required>
                 </div>
-                <a href="home.php" class="btn btn-primary m-3">Back</a>
+                <a href="login_register.php" class="btn btn-primary m-3">Back</a>
                 <input type="submit" class="btn btn-success m-3" value="Enviar">
             </form>
         </div>
@@ -85,7 +110,7 @@ include 'validate_session.php';
                     <label for="password_empresa_login" class="form-label">Contraseña</label>
                     <input type="password" class="form-control" id="password_empresa_login" name="password" required>
                 </div>
-                <a href="home.php" class="btn btn-primary m-3">Back</a>
+                <a href="login_register.php" class="btn btn-primary m-3">Back</a>
                 <input type="submit" class="btn btn-success m-3" value="Iniciar Sesión">
             </form>
         </div>
@@ -101,16 +126,13 @@ include 'validate_session.php';
                     <label for="password_usuario_login" class="form-label">Contraseña</label>
                     <input type="password" class="form-control" id="password_usuario_login" name="password" required>
                 </div>
-                <a href="home.php" class="btn btn-primary m-3">Back</a>
+                <a href="login_register.php" class="btn btn-primary m-3">Back</a>
                 <input type="submit" class="btn btn-success m-3" value="Iniciar Sesión">
             </form><br>
         </div>
     </div>
 <br><br><br><br>
-    <footer class="footer text-center">
-        <p class="text-footer">&copy; Gonzalo Rodrigo. DeepAlquemy2024</p>
-    </footer>
-
+  
     <script>
         // -------------------- Estado inicial ------------------
         let currentAction = 'register'; 
@@ -164,8 +186,6 @@ include 'validate_session.php';
             }
         }
     </script>
-</body>
-</html>
 
 
 <!--     Nota:
@@ -177,114 +197,17 @@ include 'validate_session.php';
         Si selecciona Iniciar Sesión y luego Empresa, muestra:
              Iniciar Sesión - Empresa o para usuario
         Si selecciona Registrar y luego Empresa, muestra:
-             Registro de Empresa o para usuario.
-//-------------------------------------------------------------
+             Registro de Empresa o para usuario.  -->
 
-/* Para verificar Empresa. Tabla: 
-    
-    CREATE TABLE `companies` (
-    `id_company` int(11) NOT NULL AUTO_INCREMENT,
-    `nombre` varchar(100) NOT NULL,
-    `descripcion` text NOT NULL,
-    `fecha_registro` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    PRIMARY KEY (`id_company`),
-    CHECK (CHAR_LENGTH(nombre) > 0)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-*/
 
-/* Para verificar que los datos del formulario se han cargado correctamente en la base de datos, necesitarás realizar algunos pasos adicionales después de que el formulario se envíe y procesar los datos. Aquí te muestro cómo hacerlo utilizando tu código y asumiendo que tienes un archivo de procesamiento, como registroCompany.php o registroUser.php.
-Paso 1: Procesar el formulario
+<!-- ---------------------- FOOTER ------------------------- -->
+<footer class="footer text-center">
+    <p class="text-footer">&copy; Gonzalo Rodrigo. DeepAlquemy2024</p>
+    <a href="https://www.gmail.com/" target="_blank"><img class="img-icon" src="./public/images/icons/gmail-foto.png" alt="gmail"></a>
+    <a href="https://www.youtube.com/" target="_blank"><img class="img-icon" src="./public/images/icons/youtube-foto.png" alt="youtube"></a>
+    <a href="https://www.whatsapp.com/" target="_blank"><img class="img-icon" src="./public/images/icons/whatsapp-foto.png" alt="whatsapp"></a>
+</footer>
 
-Vamos a suponer que estás trabajando con registroCompany.php para registrar a una empresa. El código puede verse así:
-
-php
-
-<?php
-// // registroCompany.php
-// session_start();
-
-// if ($_SERVER["REQUEST_METHOD"] == "POST") {
-//     $empresa = $_POST['empresa'];
-//     $email = $_POST['email'];
-//     $password = $_POST['password'];
-
-//     // Aquí debes conectarte a la base de datos
-//     $servername = "localhost";
-//     $username = "tu_usuario";
-//     $password_db = "tu_contraseña";
-//     $dbname = "tu_base_de_datos";
-
-//     $conn = new mysqli($servername, $username, $password_db, $dbname);
-
-//     // Verificar conexión
-//     if ($conn->connect_error) {
-//         die("Connection failed: " . $conn->connect_error);
-//     }
-
-//     // Preparar y ejecutar la consulta
-//     $stmt = $conn->prepare("INSERT INTO empresas (nombre, email, password) VALUES (?, ?, ?)");
-//     $stmt->bind_param("sss", $empresa, $email, password_hash($password, PASSWORD_DEFAULT)); // Usar hash para contraseñas
-
-//     if ($stmt->execute()) {
-//         echo "Registro exitoso. <br>";
-//         echo "Nombre de la empresa: $empresa <br>";
-//         echo "Correo electrónico: $email <br>";
-//     } else {
-//         echo "Error: " . $stmt->error;
-//     }
-
-//     // Cerrar conexión
-//     $stmt->close();
-//     $conn->close();
-// } else {
-//     echo "Método no permitido.";
-// }
-?>
-
-Paso 2: Verificar la inserción
-
-En el bloque if ($stmt->execute()), puedes agregar mensajes para confirmar que los datos se han insertado correctamente. En este caso, se muestra un mensaje de éxito junto con los datos ingresados.
-Paso 3: Crear un archivo para verificar
-
-Si deseas verificar los datos directamente desde la base de datos después de que se haya enviado el formulario, puedes crear un archivo llamado verificar.php que consulte la base de datos y muestre los registros:
-
-php
-
-<?php
-// // verificar.php
-// $servername = "localhost";
-// $username = "tu_usuario";
-// $password_db = "tu_contraseña";
-// $dbname = "tu_base_de_datos";
-
-// $conn = new mysqli($servername, $username, $password_db, $dbname);
-
-// // Verificar conexión
-// if ($conn->connect_error) {
-//     die("Connection failed: " . $conn->connect_error);
-// }
-
-// // Consulta para obtener los registros
-// $sql = "SELECT nombre, email FROM empresas";
-// $result = $conn->query($sql);
-
-// if ($result->num_rows > 0) {
-//     // Mostrar los datos
-//     while($row = $result->fetch_assoc()) {
-//         echo "Nombre: " . $row["nombre"]. " - Email: " . $row["email"]. "<br>";
-//     }
-// } else {
-//     echo "0 resultados";
-// }
-
-// $conn->close();
-?>
-
-Paso 4: Acceder a la verificación
-
-Después de que los datos se hayan enviado y procesado, puedes navegar a verificar.php en tu navegador para ver si los datos se han guardado correctamente en la base de datos.
-Notas importantes
-
-    Validación y seguridad: Siempre valida y sanitiza los datos del formulario para protegerte contra inyecciones SQL y otros problemas de seguridad.
-    Contraseñas: Usa password_hash() para almacenar contraseñas de forma segura y password_verify() para compararlas en el inicio de sesión.
-    Manejo de errores: Implementa un manejo adecuado de errores para que puedas identificar problemas en la conexión o ejecución de la consulta.*/
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

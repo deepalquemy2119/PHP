@@ -1,99 +1,102 @@
--- Eliminar la base de datos si existe
+-- Crear base de datos
 DROP DATABASE IF EXISTS prueba_php;
-
--- Crear la base de datos
 CREATE DATABASE prueba_php;
-
--- Usar la base de datos creada
 USE prueba_php;
 
--- Eliminar la tabla de usuarios si existe
-DROP TABLE IF EXISTS users;
-
--- crear tabla user_id
+-- tabla de usuarios
 CREATE TABLE `users` (
-    `user_id` int(11) NOT NULL AUTO_INCREMENT,
+    `id` int(11) NOT NULL AUTO_INCREMENT,
     `username` varchar(50) NOT NULL UNIQUE,
     `email` varchar(100) NOT NULL UNIQUE,
     `password` varchar(255) NOT NULL,
     `fecha_registro` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    PRIMARY KEY (`user_id`),
+    PRIMARY KEY (`id`),
     CHECK (CHAR_LENGTH(username) > 0),
     CHECK (CHAR_LENGTH(email) > 0),
     CHECK (CHAR_LENGTH(password) >= 8)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+-- tabla de servicios
+CREATE TABLE `services` (
+    `id_service` int(11) NOT NULL AUTO_INCREMENT,
+    `id_user` int(11) NOT NULL,
+    `nombre_servicio` varchar(100) NOT NULL,
+    `descripcion_servicio` text NOT NULL,
+    `fecha_creacion` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY (`id_service`),
+    KEY `id_user` (`id_user`),
+    CONSTRAINT `services_ibfk_1` FOREIGN KEY (`id_user`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+    CHECK (CHAR_LENGTH(nombre_servicio) > 0)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- Eliminar la tabla de compañías si existe
-DROP TABLE IF EXISTS companies;
-
--- Crear la tabla de compañías
+-- tabla de compañías
 CREATE TABLE `companies` (
     `id_company` int(11) NOT NULL AUTO_INCREMENT,
     `nombre` varchar(100) NOT NULL,
+    `email` varchar(100) NULL,
+    `password` varchar(255) NOT NULL,
     `descripcion` text NOT NULL,
+    `busca_servicio` varchar(255) DEFAULT NULL,
     `fecha_registro` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
     PRIMARY KEY (`id_company`),
-    CHECK (CHAR_LENGTH(nombre) > 0)
+    CHECK (CHAR_LENGTH(nombre) > 0),
+    CHECK (CHAR_LENGTH(busca_servicio) >= 0)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- Eliminar la tabla de productos si existe
-DROP TABLE IF EXISTS products;
-
--- Crear la tabla de productos
-CREATE TABLE `products` (
-    `id_product` int(11) NOT NULL AUTO_INCREMENT,
-    `id_company` int(11) NOT NULL,
-    `nombre_producto` varchar(100) NOT NULL,
-    `descripcion_producto` text NOT NULL,
-    `precio` decimal(10, 2) NOT NULL CHECK (precio >= 0),
-    `fecha_creacion` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    PRIMARY KEY (`id_product`),
-    KEY `id_company` (`id_company`),
-    CONSTRAINT `products_ibfk_1` FOREIGN KEY (`id_company`) REFERENCES `companies` (`id_company`) ON DELETE CASCADE ON UPDATE CASCADE,
-    CHECK (CHAR_LENGTH(nombre_producto) > 0)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
--- Eliminar la tabla de ofertas si existe
-DROP TABLE IF EXISTS offers;
-
--- Crear la tabla de ofertas
-CREATE TABLE `offers` (
+-- tabla de ofertas de empleo
+CREATE TABLE `job_offers` (
     `id_offer` int(11) NOT NULL AUTO_INCREMENT,
-    `id_product` int(11) NOT NULL,
-    `id_user` int(11) NOT NULL,
-    `cantidad` int(11) NOT NULL CHECK (cantidad > 0),
-    `fecha_oferta` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    `id_company` int(11) NOT NULL,
+    `titulo` varchar(100) NOT NULL,
+    `descripcion` text NOT NULL,
+    `fecha_publicacion` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
     PRIMARY KEY (`id_offer`),
-    KEY `id_product` (`id_product`),
+    KEY `id_company` (`id_company`),
+    CONSTRAINT `job_offers_ibfk_1` FOREIGN KEY (`id_company`) REFERENCES `companies` (`id_company`) ON DELETE CASCADE ON UPDATE CASCADE,
+    CHECK (CHAR_LENGTH(titulo) > 0)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- tabla de solicitudes de empleo
+CREATE TABLE `job_applications` (
+    `id_application` int(11) NOT NULL AUTO_INCREMENT,
+    `id_offer` int(11) NOT NULL,
+    `id_user` int(11) NOT NULL,
+    `fecha_solicitud` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY (`id_application`),
+    KEY `id_offer` (`id_offer`),
     KEY `id_user` (`id_user`),
-    CONSTRAINT `offers_ibfk_1` FOREIGN KEY (`id_product`) REFERENCES `products` (`id_product`) ON DELETE CASCADE ON UPDATE CASCADE,
-    CONSTRAINT `offers_ibfk_2` FOREIGN KEY (`id_user`) REFERENCES `users` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE
+    CONSTRAINT `job_applications_ibfk_1` FOREIGN KEY (`id_offer`) REFERENCES `job_offers` (`id_offer`) ON DELETE CASCADE ON UPDATE CASCADE,
+    CONSTRAINT `job_applications_ibfk_2` FOREIGN KEY (`id_user`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- Crear la tabla de auditoría
-CREATE TABLE `audit_log` (
-    `id` int(11) NOT NULL AUTO_INCREMENT,
-    `action` ENUM('INSERT', 'UPDATE', 'DELETE') NOT NULL,
-    `table_name` varchar(50) NOT NULL,
-    `record_id` int(11) NOT NULL,
-    `changed_by` int(11) NOT NULL,
-    `changed_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    PRIMARY KEY (`id`),
-    CONSTRAINT `audit_log_ibfk_1` FOREIGN KEY (`changed_by`) REFERENCES `users` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE
+-- tabla de rubros
+CREATE TABLE `rubros` (
+    `id_rubro` int(11) NOT NULL AUTO_INCREMENT,
+    `nombre_rubro` varchar(100) NOT NULL UNIQUE,
+    PRIMARY KEY (`id_rubro`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+-- tabla para relacionar empresas con rubros
+CREATE TABLE `company_rubros` (
+    `id_company` int(11) NOT NULL,
+    `id_rubro` int(11) NOT NULL,
+    PRIMARY KEY (`id_company`, `id_rubro`),
+    FOREIGN KEY (`id_company`) REFERENCES `companies` (`id_company`) ON DELETE CASCADE ON UPDATE CASCADE,
+    FOREIGN KEY (`id_rubro`) REFERENCES `rubros` (`id_rubro`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---     Tabla companies: Ahora es independiente y contiene información específica de cada compañía.
---     Tabla products: Cada producto está vinculado, y se ha añadido un campo precio para manejar el costo del producto o servicio.
---     Tabla offers: Esta tabla permite a los usuarios ofrecer productos a las compañías. Incluye una referencia a id_product y id_user, lo que permite hacer un seguimiento de quién está ofreciendo qué producto.
---     Uso de CHECK: Se han agregado restricciones CHECK para asegurar que los campos relevantes cumplan con las reglas de negocio (por ejemplo, que el precio no sea negativo).
---     Auditoría: La tabla de auditoría se mantiene para registrar los cambios realizados en los datos.
+-- tabla de habilidades
+CREATE TABLE `skills` (
+    `id_skill` int(11) NOT NULL AUTO_INCREMENT,
+    `nombre_skill` varchar(100) NOT NULL UNIQUE,
+    PRIMARY KEY (`id_skill`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- Beneficios:
-
---     Integridad de Datos: Las claves foráneas aseguran que no haya referencias huérfanas.
---     Eficiencia: Los índices mejoran el rendimiento de las consultas.
---     Flexibilidad: Este modelo permite que los usuarios interactúen con las compañías y ofrezcan productos de manera clara y eficiente.
-
--- Este diseño proporciona una base sólida para un e-commerce C2B, facilitando la gestión de usuarios, compañías y productos.
+-- tabla para relacionar usuarios con habilidades
+CREATE TABLE `user_skills` (
+    `id_user` int(11) NOT NULL,
+    `id_skill` int(11) NOT NULL,
+    PRIMARY KEY (`id_user`, `id_skill`),
+    FOREIGN KEY (`id_user`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+    FOREIGN KEY (`id_skill`) REFERENCES `skills` (`id_skill`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
