@@ -215,3 +215,5 @@ ALTER TABLE companies ADD UNIQUE (nombre);
 
 
 #----------------------------------------------
+# Inicio de sesion de Empresa o de suario 
+( control de sesion y seguridad. Validaciones )

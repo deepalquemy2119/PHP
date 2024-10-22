@@ -7,7 +7,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $email = $_POST['email'];
     $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
 
-    // Verificar si el usuario ya está registrado
+    // controlo que el usuario ya está registrado
     $stmt = $conn->prepare("SELECT * FROM users WHERE email = ?");
     $stmt->bind_param("s", $email);
     $stmt->execute();
@@ -22,8 +22,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         
         if ($stmt->execute()) {
             echo "Registro exitoso.";
-            // Redirigir a otra página si es necesario
-            // header("Location: otra_pagina.php");
+            // a otra página si es necesario
+            // header("Location: ofertasTrabajo.php");
             exit();
         } else {
             echo "Error al registrar el usuario: " . $stmt->error;

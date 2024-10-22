@@ -8,7 +8,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $busca_servicio = $_POST['busca_empresa'];
     $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
     
-    // Verificar si la empresa ya está registrada
+// controlo si la empresa ya está registrada
     $stmt = $conn->prepare("SELECT * FROM companies WHERE nombre = ? OR email = ?");
     $stmt->bind_param("ss", $empresa, $email);
     $stmt->execute();
@@ -17,14 +17,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if ($result->num_rows > 0) {
         echo "El correo electrónico o el nombre de la empresa ya están registrados.";
     } else {
-        // Insertar nueva empresa
+// meter nueva empresa
         $stmt = $conn->prepare("INSERT INTO companies (nombre, email, password, descripcion, busca_servicio) VALUES (?, ?, ?, ?, ?)");
         $stmt->bind_param("sssss", $empresa, $email, $password, $descripcion, $busca_servicio);
         
         if ($stmt->execute()) {
-            $id_company = $conn->insert_id; // Obtener el ID de la nueva empresa
+// ID de la nueva empresa
+            $id_company = $conn->insert_id; 
             
-            // Insertar los rubros seleccionados
+// meter rubros seleccionados
             if (!empty($_POST['rubros'])) {
                 $rubros_seleccionados = $_POST['rubros'];
                 foreach ($rubros_seleccionados as $id_rubro) {
@@ -57,7 +58,7 @@ $conn->close();
 </head>
 <body>
     <form action="registroCompany.php" method="post">
-        <!-- Campos del formulario -->
+<!-- --------------------- Campos del formulario -------------------- -->
         <div>
             <label for="empresa">Nombre de la Empresa</label>
             <input type="text" id="empresa" name="empresa" required>
@@ -85,7 +86,7 @@ $conn->close();
                 <option value="2">Salud</option>
                 <option value="3">Educación</option>
                 <option value="4">Construcción</option>
-                <!-- Puedes cargar más rubros dinámicamente si es necesario -->
+
             </select>
         </div>
         <a href="login_register.php" class="btn btn-primary m-3">Back</a>

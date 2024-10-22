@@ -9,12 +9,15 @@ function loadEnv($filePath) {
         if (strpos($line, '=') !== false) {
             list($key, $value) = explode('=', $line, 2);
             $key = trim($key);
-            $value = trim(trim($value), "'\""); // Elimina comillas simples y dobles
-            putenv("$key=$value"); // Opcional, si deseas usar getenv()
-            define($key, $value);   // Define la constante
+            $value = trim(trim($value), "'\""); 
+// la linea de arriba elimina comillas simples y dobles
+            putenv("$key=$value"); 
+// al usar getenv(). para mejorar la seguridad, lo voy a tratar de implementar al ir usando las var de entorno.
+            define($key, $value);   
+// constante
         }
     }
 }
 
-// Llama a la función para cargar las variables
+// función para cargar las variables.y asi no mostrar datos sensibles
 loadEnv(__DIR__ . '/.env');

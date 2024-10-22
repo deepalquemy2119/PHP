@@ -1,5 +1,5 @@
 <?php
-// variables de entorno
+// var de entorno
 include_once 'load_env.php';
 include_once 'connectDDBB.php';
 
@@ -193,7 +193,7 @@ include_once 'connectDDBB.php';
 
     Función showOptions: Actualiza currentAction según si se selecciona:Registrar o Iniciar Sesión.
 
-    Función showForm: Para que el título cambie según la combinación de acciones:
+    Función showForm: Para que el título que cambie según la combinación de acciones:
         Si selecciona Iniciar Sesión y luego Empresa, muestra:
              Iniciar Sesión - Empresa o para usuario
         Si selecciona Registrar y luego Empresa, muestra:

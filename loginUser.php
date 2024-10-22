@@ -6,7 +6,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $email = $_POST['email'];
     $password = $_POST['password'];
 
-    // Verificar credenciales
+// controlo credenciales
     $stmt = $conn->prepare("SELECT password FROM users WHERE email = ?");
     $stmt->bind_param("s", $email);
     $stmt->execute();
@@ -18,10 +18,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $row = $result->fetch_assoc();
         if (password_verify($password, $row['password'])) {
             echo "Inicio de sesión exitoso.";
-            // Aquí puedes iniciar una sesión y redirigir al usuario
+// iniciar sesión. redirigir al usuario
             // session_start();
             // $_SESSION['user_email'] = $email;
-            // header("Location: dashboard.php");
+            // header("Location: ofertasTrabajo.php");
         } else {
             echo "Contraseña incorrecta.";
         }
