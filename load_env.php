@@ -19,5 +19,5 @@ function loadEnv($filePath) {
     }
 }
 
-// función para cargar las variables.y asi no mostrar datos sensibles
+// función para cargar las variables.y asi no mostrar datos sensibles(.env)
 loadEnv(__DIR__ . '/.env');

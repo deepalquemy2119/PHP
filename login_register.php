@@ -35,6 +35,7 @@ include_once 'connectDDBB.php';
   
         <button class="btn btn-primary m-2" onclick="showOptions('register')">Registrar</button>
         <button class="btn btn-success m-2" onclick="showOptions('login')">Iniciar Sesión</button>
+        <br><br><br><br><br>
     </div>
 
     <div id="options-container" class="mt-3" style="display:none;">
