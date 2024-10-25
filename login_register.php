@@ -54,26 +54,26 @@ include_once 'connectDDBB.php';
             <form action="registroCompany.php" method="post" class="container">
                 <div class="mb-3">
                     <label for="empresa" class="form-label">Nombre de la Empresa</label>
-                    <input type="text" class="form-control" id="empresa" name="empresa" required>
+                    <input type="text" class="form-control" id="empresa" name="empresa" autocomplete="off">
                 </div>
                 <div class="mb-3">
                     <label for="email_empresa" class="form-label">Correo Electrónico</label>
-                    <input type="email" class="form-control" id="email_empresa" name="email" required>
+                    <input type="email" class="form-control" id="email_empresa" name="email" autocomplete="off" required>
                 </div>
 
                 <div class="mb-3">
                     <label for="descripcion_empresa" class="form-label">Descripcion Empresa</label>
-                    <input type="text" class="form-control" id="descripcion_empresa" name="descripcion_empresa" required>
+                    <input type="text" class="form-control" id="descripcion_empresa" name="descripcion_empresa" autocomplete="off" required>
                 </div>
                 
                 <div class="mb-3">
                     <label for="busca_empresa" class="form-label">Descripcion Servicio Busca</label>
-                    <input type="text" class="form-control" id="busca_empresa" name="busca_empresa" required>
+                    <input type="text" class="form-control" id="busca_empresa" name="busca_empresa" autocomplete="off" required>
                 </div>
                 
                 <div class="mb-3">
                     <label for="password_empresa" class="form-label">Contraseña</label>
-                    <input type="password" class="form-control" id="password_empresa" name="password" required>
+                    <input type="password" class="form-control" id="password_empresa" name="password" autocomplete="off" required>
                 </div>
                 <a href="login_register.php" class="btn btn-primary m-3">Back</a>
                 <input type="submit" class="btn btn-success m-3" value="Enviar">
@@ -85,15 +85,15 @@ include_once 'connectDDBB.php';
             <form action="registroUser.php" method="post" class="container">
                 <div class="mb-3">
                     <label for="nombre_usuario" class="form-label">Nombre</label>
-                    <input type="text" class="form-control" id="nombre_usuario" name="nombre" required>
+                    <input type="text" class="form-control" id="nombre_usuario" name="nombre" autocomplete="off" required>
                 </div>
                 <div class="mb-3">
                     <label for="email_usuario" class="form-label">Correo Electrónico</label>
-                    <input type="email" class="form-control" id="email_usuario" name="email" required>
+                    <input type="email" class="form-control" id="email_usuario" name="email" autocomplete="off" required>
                 </div>
                 <div class="mb-3">
                     <label for="password_usuario" class="form-label">Contraseña</label>
-                    <input type="password" class="form-control" id="password_usuario" name="password" required>
+                    <input type="password" class="form-control" id="password_usuario" name="password" autocomplete="off" required>
                 </div>
                 <a href="login_register.php" class="btn btn-primary m-3">Back</a>
                 <input type="submit" class="btn btn-success m-3" value="Enviar">
@@ -105,11 +105,11 @@ include_once 'connectDDBB.php';
             <form action="loginCompany.php" method="post" class="container">
                 <div class="mb-3">
                     <label for="email_empresa_login" class="form-label">Correo Electrónico</label>
-                    <input type="email" class="form-control" id="email_empresa_login" name="email" required>
+                    <input type="email" class="form-control" id="email_empresa_login" name="email" autocomplete="off" required>
                 </div>
                 <div class="mb-3">
                     <label for="password_empresa_login" class="form-label">Contraseña</label>
-                    <input type="password" class="form-control" id="password_empresa_login" name="password" required>
+                    <input type="password" class="form-control" id="password_empresa_login" name="password" autocomplete="off" required>
                 </div>
                 <a href="login_register.php" class="btn btn-primary m-3">Back</a>
                 <input type="submit" class="btn btn-success m-3" value="Iniciar Sesión">
@@ -121,11 +121,11 @@ include_once 'connectDDBB.php';
             <form action="loginUser.php" method="post" class="container">
                 <div class="mb-3">
                     <label for="email_usuario_login" class="form-label">Correo Electrónico</label>
-                    <input type="email" class="form-control" id="email_usuario_login" name="email" required>
+                    <input type="email" class="form-control" id="email_usuario_login" name="email" autocomplete="off" required>
                 </div>
                 <div class="mb-3">
                     <label for="password_usuario_login" class="form-label">Contraseña</label>
-                    <input type="password" class="form-control" id="password_usuario_login" name="password" required>
+                    <input type="password" class="form-control" id="password_usuario_login" name="password" autocomplete="off" required>
                 </div>
                 <a href="login_register.php" class="btn btn-primary m-3">Back</a>
                 <input type="submit" class="btn btn-success m-3" value="Iniciar Sesión">
@@ -134,60 +134,89 @@ include_once 'connectDDBB.php';
     </div>
 <br><br><br><br>
   
-    <script>
-        // -------------------- Estado inicial ------------------
-        let currentAction = 'register'; 
+<script>
+    // -------------------- Estado inicial ------------------
+    let currentAction = 'register'; 
 
-        function showOptions(action) {
-
+    function showOptions(action) {
         //  ------------ Actualizar acción actual -------------
-            currentAction = action;
+        currentAction = action;
 
-            const mainContainer = document.getElementById('main-container');
-            const optionsContainer = document.getElementById('options-container');
-            mainContainer.style.display = 'none'; 
-            optionsContainer.style.display = 'block'; 
-            document.getElementById('form-container').style.display = 'none'; 
-        }
+        const mainContainer = document.getElementById('main-container');
+        const optionsContainer = document.getElementById('options-container');
+        mainContainer.style.display = 'none'; 
+        optionsContainer.style.display = 'block'; 
+        document.getElementById('form-container').style.display = 'none'; 
+    }
 
-// --------- Funcion Mostrar Formulario ------------
-        function showForm(type, action) {
-            const optionsContainer = document.getElementById('options-container');
-            const formContainer = document.getElementById('form-container');
-            const empresaRegisterForm = document.getElementById('empresa-register-form');
-            const usuarioRegisterForm = document.getElementById('usuario-register-form');
-            const empresaLoginForm = document.getElementById('empresa-login-form');
-            const usuarioLoginForm = document.getElementById('usuario-login-form');
-            const formTitle = document.getElementById('form-title');
+    // --------- Funcion Mostrar Formulario ------------
+    function showForm(type, action) {
+        const optionsContainer = document.getElementById('options-container');
+        const formContainer = document.getElementById('form-container');
+        const empresaRegisterForm = document.getElementById('empresa-register-form');
+        const usuarioRegisterForm = document.getElementById('usuario-register-form');
+        const empresaLoginForm = document.getElementById('empresa-login-form');
+        const usuarioLoginForm = document.getElementById('usuario-login-form');
+        const formTitle = document.getElementById('form-title');
 
-            optionsContainer.style.display = 'none'; 
-            formContainer.style.display = 'block'; 
+        optionsContainer.style.display = 'none'; 
+        formContainer.style.display = 'block'; 
 
-            if (action === 'login') {
-                if (type === 'empresa') {
-                    empresaLoginForm.style.display = 'block';
-                    usuarioLoginForm.style.display = 'none';
-                    formTitle.textContent = 'Iniciar Sesión - Empresa';
-                } else {
-                    empresaLoginForm.style.display = 'none';
-                    usuarioLoginForm.style.display = 'block';
-                    formTitle.textContent = 'Iniciar Sesión - Usuario';
-                }
-            } else { 
+        //funcion limpia todos los formularios
+        resetForms();
+
+        if (action === 'login') {
+            if (type === 'empresa') {
+                empresaLoginForm.style.display = 'block';
+                usuarioLoginForm.style.display = 'none';
+                formTitle.textContent = 'Iniciar Sesión - Empresa';
+            } else {
+                empresaLoginForm.style.display = 'none';
+                usuarioLoginForm.style.display = 'block';
+                formTitle.textContent = 'Iniciar Sesión - Usuario';
+            }
+        } else { 
             // Si es registro
-                if (type === 'empresa') {
-                    empresaRegisterForm.style.display = 'block';
-                    usuarioRegisterForm.style.display = 'none';
-                    formTitle.textContent = 'Registro de Empresa';
-                } else {
-                    empresaRegisterForm.style.display = 'none';
-                    usuarioRegisterForm.style.display = 'block';
-                    formTitle.textContent = 'Registro de Usuario';
-                }
+            if (type === 'empresa') {
+                empresaRegisterForm.style.display = 'block';
+                usuarioRegisterForm.style.display = 'none';
+                formTitle.textContent = 'Registro de Empresa';
+            } else {
+                empresaRegisterForm.style.display = 'none';
+                usuarioRegisterForm.style.display = 'block';
+                formTitle.textContent = 'Registro de Usuario';
             }
         }
-    </script>
+    }
 
+    //para limpiar todos los formularios
+    function resetForms() {
+        const empresaRegisterForm = document.getElementById('empresa-register-form');
+        const usuarioRegisterForm = document.getElementById('usuario-register-form');
+        const empresaLoginForm = document.getElementById('empresa-login-form');
+        const usuarioLoginForm = document.getElementById('usuario-login-form');
+
+        // Limpio campos del formulario de registro de empresa
+        if (empresaRegisterForm.style.display === 'block') {
+            empresaRegisterForm.reset();
+        }
+
+        // Limpio campos del formulario de registro de usuario
+        if (usuarioRegisterForm.style.display === 'block') {
+            usuarioRegisterForm.reset();
+        }
+
+        // Limpio campos del formulario de login de empresa
+        if (empresaLoginForm.style.display === 'block') {
+            empresaLoginForm.reset();
+        }
+
+        // Limpio campos del formulario de login de usuario
+        if (usuarioLoginForm.style.display === 'block') {
+            usuarioLoginForm.reset();
+        }
+    }
+</script>
 
 <!--     Nota:
     La variable currentAction es para mantener el estado de la acción actual (registro o inicio de sesión).
