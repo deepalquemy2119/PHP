@@ -218,3 +218,44 @@ ALTER TABLE companies ADD UNIQUE (nombre);
 # Inicio de sesion de Empresa o de suario 
 ( control de sesion y seguridad. Validaciones )
 
+USO DE ISSET(): 
+En PHP, la función isset() se utiliza para determinar si una variable está definida y no es null.
+     Es muy útil para verificar si se ha establecido una variable antes de intentar utilizarla, evitando errores en tiempo de ejecución.
+Uso de isset():
+
+    $nombre = "Juan";
+
+    if (isset($nombre)) {
+        echo "La variable \$nombre está definida y no es null.";
+    } else {
+        echo "La variable \$nombre no está definida.";
+    }
+
+Características de isset()
+    Devuelve true: Si la variable está definida y no es null.
+    Devuelve false: Si la variable no está definida o es null.
+
+    Puede tomar múltiples variables: 
+        Si se pasan varias variables como argumentos, isset() devolverá true solo si todas las variables están definidas y no son null.
+
+    $a = "Hola";
+    $b = null;
+
+    if (isset($a, $b)) {
+        echo "Ambas variables están definidas y no son null.";
+    } else {
+        echo "Al menos una variable no está definida o es null.";
+    }
+
+Ejemplo en un formulario
+    isset() se utiliza a menudo para comprobar si se han enviado datos de un formulario:
+
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    if (isset($_POST['nombre'])) {
+        $nombre = $_POST['nombre'];
+        echo "Nombre recibido: " . $nombre;
+    } else {
+        echo "No se recibió el nombre.";
+    }
+}

@@ -32,3 +32,24 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $stmt->close();
 }
 $conn->close();
+
+
+//___________________________________________________________________________-
+// para usar con registro en la base de datos
+
+// include_once 'connectDDBB.php';
+// include_once 'load_env.php';
+
+// if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+//     $email = $_POST['email'];
+//     $password = password_hash($_POST['password'], PASSWORD_BCRYPT); // Hashear la contraseña
+
+//     $stmt = $conn->prepare("INSERT INTO users (email, password) VALUES (?, ?)");
+//     $stmt->bind_param("ss", $email, $password);
+//     if ($stmt->execute()) {
+//         echo "Cuenta creada con éxito.";
+//     } else {
+//         echo "Error al crear cuenta: " . $stmt->error;
+//     }
+//     $stmt->close();
+// }
