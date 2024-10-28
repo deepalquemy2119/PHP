@@ -18,6 +18,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $row = $result->fetch_assoc();
         if (password_verify($password, $row['password'])) {
             echo "Inicio de sesión exitoso...!!!.";
+            
 
         } else {
             echo "Contraseña incorrecta.";

@@ -21,17 +21,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $stmt->bind_param("sss", $nombre, $email, $password);
         
         if ($stmt->execute()) {
-            echo "Registro exitoso.";
+            //echo "Registro exitoso.";
             // a otra página si es necesario
-            // header("Location: ofertasTrabajo.php");
-            exit();
+            header("Location: login_register.php");
+            //exit();
         } else {
             echo "Error al registrar el usuario: " . $stmt->error;
         }
     }
     $stmt->close();
 }
-$conn->close();
+//$conn->close();
 
 
 //___________________________________________________________________________-

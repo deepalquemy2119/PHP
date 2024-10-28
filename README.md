@@ -259,3 +259,115 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         echo "No se recibió el nombre.";
     }
 }
+
+//--------------------------------------------------------------
+
+
+Para mostrar solo el mensaje correspondiente según la acción realizada (registro o login de usuario o compañía), puedes utilizar un parámetro en la URL para determinar qué mensaje mostrar. A continuación, te muestro un ejemplo modificado del HTML que hace esto.
+Ejemplo de HTML Dinámico
+
+html
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mensajes de Éxito</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            color: #333;
+            padding: 20px;
+            text-align: center;
+        }
+        .message {
+            background-color: #4CAF50;
+            color: white;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 5px;
+        }
+        .error {
+            background-color: #f44336;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Mensajes de Éxito</h1>
+
+    <?php
+        // Obtener el parámetro de la URL
+        $action = isset($_GET['action']) ? $_GET['action'] : '';
+
+        // Mensajes basados en la acción
+        switch ($action) {
+            case 'register_user':
+                echo '<div class="message">
+                        <h2>Registro de Usuario Exitoso</h2>
+                        <p>¡Te has registrado correctamente! Ya puedes iniciar sesión.</p>
+                      </div>';
+                break;
+
+            case 'register_company':
+                echo '<div class="message">
+                        <h2>Registro de Compañía Exitoso</h2>
+                        <p>¡La compañía se ha registrado correctamente! Inicia sesión para comenzar.</p>
+                      </div>';
+                break;
+
+            case 'login_user':
+                echo '<div class="message">
+                        <h2>Login de Usuario Exitoso</h2>
+                        <p>¡Bienvenido de nuevo! Has iniciado sesión correctamente.</p>
+                      </div>';
+                break;
+
+            case 'login_company':
+                echo '<div class="message">
+                        <h2>Login de Compañía Exitoso</h2>
+                        <p>¡Bienvenido de nuevo! Has iniciado sesión correctamente.</p>
+                      </div>';
+                break;
+
+            default:
+                echo '<div class="error">
+                        <h2>Error</h2>
+                        <p>No se ha especificado ninguna acción válida.</p>
+                      </div>';
+                break;
+        }
+    ?>
+
+    <a href="index.html" style="display: inline-block; margin-top: 20px; text-decoration: none; background-color: #2196F3; color: white; padding: 10px 15px; border-radius: 5px;">Volver a Inicio</a>
+
+</body>
+</html>
+
+Explicación del Código
+
+    Parámetro de URL: Este código PHP usa el parámetro action de la URL para determinar qué mensaje mostrar. Por ejemplo, la URL puede ser success.html?action=register_user.
+
+    Estructura switch: Dependiendo del valor de action, se muestra el mensaje correspondiente:
+        register_user: Mensaje de registro de usuario.
+        register_company: Mensaje de registro de compañía.
+        login_user: Mensaje de inicio de sesión de usuario.
+        login_company: Mensaje de inicio de sesión de compañía.
+        Si no se pasa un valor válido, se muestra un mensaje de error.
+
+    Enlace de Navegación: Se mantiene el enlace para volver a la página de inicio.
+
+Uso
+
+Para mostrar un mensaje específico, redirige a los usuarios a esta página con el parámetro adecuado en la URL. Por ejemplo:
+
+    Para un registro de usuario exitoso: success.html?action=register_user
+    Para un registro de compañía exitoso: success.html?action=register_company
+    Para un inicio de sesión de usuario exitoso: success.html?action=login_user
+    Para un inicio de sesión de compañía exitoso: success.html?action=login_company
+
+Esto asegura que solo se muestre el mensaje relevante según la acción realizada.
+
+//----------------------------------------------------------------------------
