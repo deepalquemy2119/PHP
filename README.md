@@ -94,17 +94,12 @@ Ver ----> prueba_pHp.sql
 
 DDBB: 
 
--- Crear usuario y otorgar permisos
--- CREATE USER 'root9112'@'localhost' IDENTIFIED BY 'Utn54200593$&?';
--- GRANT ALL PRIVILEGES ON prueba_php.* TO 'root9112'@'localhost' WITH GRANT OPTION;
--- FLUSH PRIVILEGES;
-
 -- Crear base de datos
 DROP DATABASE IF EXISTS prueba_php;
 CREATE DATABASE prueba_php;
 USE prueba_php;
 
--- Crear tabla de usuarios
+-- tabla de usuarios
 CREATE TABLE `users` (
     `id` int(11) NOT NULL AUTO_INCREMENT,
     `username` varchar(50) NOT NULL UNIQUE,
@@ -117,34 +112,7 @@ CREATE TABLE `users` (
     CHECK (CHAR_LENGTH(password) >= 8)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- Crear tabla de compañías
-CREATE TABLE `companies` (
-    `id_company` int(11) NOT NULL AUTO_INCREMENT,
-    `nombre` varchar(100) NOT NULL,
-    `email` varchar(100) NULL,
-    `descripcion` text NOT NULL,
-    `busca_servicio` varchar(255) DEFAULT NULL,
-    `fecha_registro` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    PRIMARY KEY (`id_company`),
-    CHECK (CHAR_LENGTH(nombre) > 0),
-    CHECK (CHAR_LENGTH(busca_servicio) >= 0)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
--- Crear tabla de productos
-CREATE TABLE `products` (
-    `id_product` int(11) NOT NULL AUTO_INCREMENT,
-    `id_company` int(11) NOT NULL,
-    `nombre_producto` varchar(100) NOT NULL,
-    `descripcion_producto` text NOT NULL,
-    `precio` decimal(10, 2) NOT NULL CHECK (precio >= 0),
-    `fecha_creacion` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    PRIMARY KEY (`id_product`),
-    KEY `id_company` (`id_company`),
-    CONSTRAINT `products_ibfk_1` FOREIGN KEY (`id_company`) REFERENCES `companies` (`id_company`) ON DELETE CASCADE ON UPDATE CASCADE,
-    CHECK (CHAR_LENGTH(nombre_producto) > 0)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
--- Crear tabla de servicios
+-- tabla de servicios
 CREATE TABLE `services` (
     `id_service` int(11) NOT NULL AUTO_INCREMENT,
     `id_user` int(11) NOT NULL,
@@ -157,7 +125,21 @@ CREATE TABLE `services` (
     CHECK (CHAR_LENGTH(nombre_servicio) > 0)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- Crear tabla de ofertas de empleo
+-- tabla de compañías
+CREATE TABLE `companies` (
+    `id_company` int(11) NOT NULL AUTO_INCREMENT,
+    `nombre` varchar(100) NOT NULL,
+    `email` varchar(100) NULL,
+    `password` varchar(255) NOT NULL,
+    `descripcion` text NOT NULL,
+    `busca_servicio` varchar(255) DEFAULT NULL,
+    `fecha_registro` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY (`id_company`),
+    CHECK (CHAR_LENGTH(nombre) > 0),
+    CHECK (CHAR_LENGTH(busca_servicio) >= 0)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- tabla de ofertas de empleo
 CREATE TABLE `job_offers` (
     `id_offer` int(11) NOT NULL AUTO_INCREMENT,
     `id_company` int(11) NOT NULL,
@@ -170,7 +152,7 @@ CREATE TABLE `job_offers` (
     CHECK (CHAR_LENGTH(titulo) > 0)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- Crear tabla de solicitudes de empleo
+-- tabla de solicitudes de empleo
 CREATE TABLE `job_applications` (
     `id_application` int(11) NOT NULL AUTO_INCREMENT,
     `id_offer` int(11) NOT NULL,
@@ -183,36 +165,55 @@ CREATE TABLE `job_applications` (
     CONSTRAINT `job_applications_ibfk_2` FOREIGN KEY (`id_user`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- Crear tabla de auditoría para solicitudes
-CREATE TABLE `job_application_audit_log` (
-    `id` int(11) NOT NULL AUTO_INCREMENT,
-    `action` ENUM('INSERT', 'UPDATE', 'DELETE') NOT NULL,
-    `application_id` int(11) NOT NULL,
-    `changed_by` int(11) NOT NULL,
-    `changed_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    PRIMARY KEY (`id`),
-    CONSTRAINT `job_application_audit_log_ibfk_1` FOREIGN KEY (`changed_by`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-    CONSTRAINT `job_application_audit_log_ibfk_2` FOREIGN KEY (`application_id`) REFERENCES `job_applications` (`id_application`) ON DELETE CASCADE ON UPDATE CASCADE
+-- tabla de rubros
+CREATE TABLE `rubros` (
+    `id_rubro` int(11) NOT NULL AUTO_INCREMENT,
+    `nombre_rubro` varchar(100) NOT NULL UNIQUE,
+    PRIMARY KEY (`id_rubro`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- Crear tabla de auditoría para servicios
-CREATE TABLE `service_audit_log` (
-    `id` int(11) NOT NULL AUTO_INCREMENT,
-    `action` ENUM('INSERT', 'UPDATE', 'DELETE') NOT NULL,
-    `service_id` int(11) NOT NULL,
-    `changed_by` int(11) NOT NULL,
-    `changed_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    PRIMARY KEY (`id`),
-    CONSTRAINT `service_audit_log_ibfk_1` FOREIGN KEY (`changed_by`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-    CONSTRAINT `service_audit_log_ibfk_2` FOREIGN KEY (`service_id`) REFERENCES `services` (`id_service`) ON DELETE CASCADE ON UPDATE CASCADE
+-- tabla para relacionar empresas con rubros
+CREATE TABLE `company_rubros` (
+    `id_company` int(11) NOT NULL,
+    `id_rubro` int(11) NOT NULL,
+    PRIMARY KEY (`id_company`, `id_rubro`),
+    FOREIGN KEY (`id_company`) REFERENCES `companies` (`id_company`) ON DELETE CASCADE ON UPDATE CASCADE,
+    FOREIGN KEY (`id_rubro`) REFERENCES `rubros` (`id_rubro`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- tabla de habilidades
+CREATE TABLE `skills` (
+    `id_skill` int(11) NOT NULL AUTO_INCREMENT,
+    `nombre_skill` varchar(100) NOT NULL UNIQUE,
+    PRIMARY KEY (`id_skill`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- tabla para relacionar usuarios con habilidades
+CREATE TABLE `user_skills` (
+    `id_user` int(11) NOT NULL,
+    `id_skill` int(11) NOT NULL,
+    PRIMARY KEY (`id_user`, `id_skill`),
+    FOREIGN KEY (`id_user`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+    FOREIGN KEY (`id_skill`) REFERENCES `skills` (`id_skill`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+CREATE TABLE `sessions` (
+    `id` INT AUTO_INCREMENT PRIMARY KEY,
+    `user_id` INT NOT NULL,
+    `session_token` VARCHAR(255) NOT NULL,
+    `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    `expires_at` TIMESTAMP NOT NULL,
+    FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 
-ALTER TABLE users ADD UNIQUE (email);
-ALTER TABLE users ADD UNIQUE (username);
-ALTER TABLE companies ADD UNIQUE (email);
-ALTER TABLE companies ADD UNIQUE (nombre);
-
+CREATE TABLE `logs` (
+    `id` INT AUTO_INCREMENT PRIMARY KEY,
+    `user_id` INT NOT NULL,
+    `action` VARCHAR(255) NOT NULL,
+    `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 #----------------------------------------------
 # Inicio de sesion de Empresa o de suario 
@@ -268,7 +269,7 @@ Ejemplo de HTML Dinámico
 
 html
 
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
@@ -294,9 +295,9 @@ html
         }
     </style>
 </head>
-<body>
+<body> -->
 
-    <h1>Mensajes de Éxito</h1>
+    <!-- <h1>Mensajes de Éxito</h1>
 
     <?php
         // Obtener el parámetro de la URL
@@ -343,10 +344,9 @@ html
 
     <a href="index.html" style="display: inline-block; margin-top: 20px; text-decoration: none; background-color: #2196F3; color: white; padding: 10px 15px; border-radius: 5px;">Volver a Inicio</a>
 
-</body>
-</html>
+<!-- </body>
+</html> -->
 
-Explicación del Código
 
     Parámetro de URL: Este código PHP usa el parámetro action de la URL para determinar qué mensaje mostrar. Por ejemplo, la URL puede ser success.html?action=register_user.
 
@@ -370,4 +370,4 @@ Para mostrar un mensaje específico, redirige a los usuarios a esta página con 
 
 Esto asegura que solo se muestre el mensaje relevante según la acción realizada.
 
-//----------------------------------------------------------------------------
+//-----------------------------------------------------------
